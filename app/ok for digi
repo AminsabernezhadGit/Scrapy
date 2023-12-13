@@ -1,0 +1,45 @@
+import scrapy
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys  # Add this line for sending keys
+
+class DartilSpider(scrapy.Spider):
+    name = 'easy'
+    start_urls = ['https://www.digikala.com/product/dkp-8366616/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-13-ch-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-4-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%86%D8%A7%D8%AA-%D8%A7%DA%A9%D8%AA%DB%8C%D9%88/']
+
+    def __init__(self, *args, **kwargs):
+        super(DartilSpider, self).__init__(*args, **kwargs)
+
+        options = Options()
+        options.add_argument("--headless")
+        options.add_argument("--window-size=1920,1200")
+
+        self.driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=options)
+
+    def parse(self, response):
+        self.driver.get(response.url)
+        self.driver.implicitly_wait(5)
+
+        # Extract color elements
+        color_elements = self.driver.find_elements(By.CSS_SELECTOR, "div.styles_InfoSectionVariationColor__pX_3M")
+
+        for color_element in color_elements:
+            # Click on the color element
+            color_element.click()
+
+            # Extract data after selecting the color
+            block = self.driver.find_element(By.CLASS_NAME, 'flex.flex-col.lg\:mr-3.lg\:mb-3.lg\:gap-y-2.styles_InfoSection__buyBoxContainer__3nOwP')
+
+            products = block.find_elements(By.CSS_SELECTOR, "span.text-h4.ml-1.text-neutral-800")
+            product_texts = [product.text for product in products]
+
+            # Print or yield the data as needed
+            for product_text in product_texts:
+                print(f"color: {color_element.text} ===> price: {product_text}")
+
+
+
+        self.driver.quit()

@@ -1,0 +1,43 @@
+when user click color on following html price change, can you modify scrapy code for this condition
+
+import scrapy
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.common.by import By  # Add this line
+
+class DartilSpider(scrapy.Spider):
+    name = 'easy'
+    start_urls = ['https://www.digikala.com/product/dkp-8366616/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-13-ch-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-4-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%86%D8%A7%D8%AA-%D8%A7%DA%A9%D8%AA%DB%8C%D9%88/']
+
+    def __init__(self, *args, **kwargs):
+        super(DartilSpider, self).__init__(*args, **kwargs)
+
+        options = Options()
+        options.add_argument("--headless")
+        options.add_argument("--window-size=1920,1200")
+
+        self.driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=options)
+
+    def parse(self, response):
+        self.driver.get(response.url)
+
+        # Wait for some time if necessary for the page to load (you might need to customize this)
+        self.driver.implicitly_wait(5)
+
+        # Extract data using Selenium
+        products = self.driver.find_elements(By.CSS_SELECTOR, "span.text-h4.ml-1.text-neutral-800")
+
+        # Extract text from elements
+        product_texts = [product.text for product in products]
+
+        # Print or yield the data as needed
+        for product_text in product_texts:
+            print(product_text)
+
+        self.driver.quit()
+
+
+
+<div class="flex lg:flex-wrap overflow-x-auto"><div class="bg-neutral-000 flex items-center justify-center cursor-pointer mb-2 ml-2 px-2 lg:px-0 styles_InfoSectionVariationColor__pX_3M"><div class="whitespace-nowrap"><div><div class="flex items-center"><div class="rounded-circle flex items-center justify-center styles_InfoSectionVariationColorContent__iconWrapper__WEy3t"><div style="background: rgb(33, 33, 33);" class="rounded-circle mx-auto border-complete lg:border-none flex items-center justify-center styles_InfoSectionVariationColorContent__main__OUcdN"></div></div></div></div><div class="z-4 text-body-2 styles_Tooltip__tooltip___Mj8o styles_Tooltip__tooltip--inactive__vFMA1" style="position: absolute; inset: 0px auto auto 0px; transform: translate(880px, 416px);" data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom">مشکی<div></div></div></div></div><div class="bg-neutral-000 flex items-center justify-center cursor-pointer mb-2 ml-2 px-2 lg:px-0 styles_InfoSectionVariationColor__pX_3M"><div class="whitespace-nowrap"><div><div class="flex items-center"><div class="rounded-circle flex items-center justify-center styles_InfoSectionVariationColorContent__iconWrapper__WEy3t"><div style="background: rgb(255, 255, 255);" class="rounded-circle mx-auto border-complete lg:border-none flex items-center justify-center styles_InfoSectionVariationColorContent__main__OUcdN"></div></div></div></div><div class="z-4 text-body-2 styles_Tooltip__tooltip___Mj8o styles_Tooltip__tooltip--inactive__vFMA1" style="position: absolute; inset: 0px auto auto 0px; transform: translate(832px, 416px);" data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom">سفید<div></div></div></div></div><div class="bg-neutral-000 flex items-center justify-center cursor-pointer mb-2 ml-2 px-2 lg:px-0 styles_InfoSectionVariationColor__pX_3M"><div class="whitespace-nowrap"><div><div class="flex items-center"><div class="rounded-circle flex items-center justify-center styles_InfoSectionVariationColorContent__iconWrapper__WEy3t"><div style="background: rgb(244, 67, 54);" class="rounded-circle mx-auto border-complete lg:border-none flex items-center justify-center styles_InfoSectionVariationColorContent__main__OUcdN"></div></div></div></div><div class="z-4 text-body-2 styles_Tooltip__tooltip___Mj8o styles_Tooltip__tooltip--inactive__vFMA1" style="position: absolute; inset: 0px auto auto 0px; transform: translate(784px, 416px);" data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom">قرمز<div></div></div></div></div><div class="bg-neutral-000 flex items-center justify-center cursor-pointer mb-2 ml-2 px-2 lg:px-0 styles_InfoSectionVariationColor__pX_3M"><div class="whitespace-nowrap"><div><div class="flex items-center"><div class="rounded-circle flex items-center justify-center styles_InfoSectionVariationColorContent__iconWrapper__WEy3t"><div style="background: rgb(33, 150, 243);" class="rounded-circle mx-auto border-complete lg:border-none flex items-center justify-center styles_InfoSectionVariationColorContent__main__OUcdN"></div></div></div></div><div class="z-4 text-body-2 styles_Tooltip__tooltip___Mj8o styles_Tooltip__tooltip--inactive__vFMA1" style="position: absolute; inset: 0px auto auto 0px; transform: translate(736px, 416px);" data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom">آبی<div></div></div></div></div><div class="bg-neutral-000 flex items-center justify-center cursor-pointer mb-2 ml-2 px-2 lg:px-0 styles_InfoSectionVariationColor__pX_3M"><div class="whitespace-nowrap"><div><div class="flex items-center"><div class="rounded-circle flex items-center justify-center styles_InfoSectionVariationColorContent__iconWrapper__WEy3t"><div style="background: rgb(255, 128, 171);" class="rounded-circle mx-auto border-complete lg:border-none flex items-center justify-center styles_InfoSectionVariationColorContent__main__OUcdN"></div></div></div></div><div class="z-4 text-body-2 styles_Tooltip__tooltip___Mj8o styles_Tooltip__tooltip--inactive__vFMA1" style="position: absolute; inset: 0px auto auto 0px; transform: translate(688px, 416px);" data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom">صورتی<div></div></div></div></div><div class="bg-neutral-000 flex items-center justify-center cursor-pointer mb-2 ml-2 px-2 lg:px-0 styles_InfoSectionVariationColor__pX_3M styles_InfoSectionVariationColor__selected__MqDpU"><div class="whitespace-nowrap"><div><div class="flex items-center"><div class="rounded-circle flex items-center justify-center styles_InfoSectionVariationColorContent__iconWrapper__WEy3t"><div style="background: rgb(0, 126, 51);" class="rounded-circle mx-auto border-complete lg:border-none flex items-center justify-center styles_InfoSectionVariationColorContent__main__OUcdN"><div class="flex"><svg style="width: 24px; height: 24px; fill: var(--color-icon-white);"><use xlink:href="#done"></use></svg></div></div></div></div></div><div class="z-4 text-body-2 styles_Tooltip__tooltip___Mj8o styles_Tooltip__tooltip--inactive__vFMA1" style="position: absolute; inset: 0px auto auto 0px; transform: translate(640px, 416px);" data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom">سبز تیره<div></div></div></div></div></div>
