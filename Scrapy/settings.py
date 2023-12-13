@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app.apps.AppConfig',
     'rest_framework',
+    'django_jalali',
 ]
 
 MIDDLEWARE = [
@@ -68,10 +69,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'aAYJR1mNz3QXWQLA',
-        'HOST': 'db.bvocmtcjqnhvfdeieace.supabase.co',
-        'PORT': '5432',
+        'USER': 'root',
+        'PASSWORD': '5h9wbJhhZACyRFR80VrOLVVv',
+        'HOST': 'k2.liara.cloud',
+        'PORT': '31511',
     }
 }
 
